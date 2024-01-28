@@ -1,35 +1,29 @@
 #include <render/render.h>
 
-#include <GLFW/glfw3.h>
+#include <SDL2/SDL.h>
 
-static int windowSize[2] = { 640, 480 };
-static const char* windowTitle = "Simple 3d shooter";
+struct
+{
+    int size_x = 620;
+    int size_y = 480;
+    const char* title = "Shooter";
+
+} windowSettings;
 
 int WinMain()
 {
-    GLFWwindow* window;
-
-    if (!glfwInit())
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         return 1;
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    SDL_Window* win = SDL_CreateWindow(windowSettings.title,
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        windowSettings.size_x, windowSettings.size_y, 0);
 
-    window = glfwCreateWindow(windowSize[0], windowSize[1], windowTitle, NULL, NULL);
-    if (!window)
+    while (true)
     {
-        glfwTerminate();
-        return 1;
-    }
 
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwSwapBuffers(window);
-        glfwPollEvents();
     }
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
 
 	return 0;
 }

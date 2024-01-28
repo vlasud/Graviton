@@ -1,7 +1,6 @@
 #include <render/render.h>
 
 
-void render_act()
+void render::render_act()
 {
-
 }
