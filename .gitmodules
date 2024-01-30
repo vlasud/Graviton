@@ -1,4 +1,4 @@
 
-[submodule "third_party/SDL"]
-	path = third_party/SDL
-	url = git@github.com:libsdl-org/SDL.git
+[submodule "third_party/glfw"]
+	path = third_party/glfw
+	url = git@github.com:glfw/glfw.git

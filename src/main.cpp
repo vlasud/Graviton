@@ -1,29 +1,46 @@
+﻿#include <glad/gl.h>
+#include <GLFW/glfw3.h>
+
 #include <render/render.h>
 
-#include <SDL2/SDL.h>
 
-struct
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    int size_x = 620;
-    int size_y = 480;
-    const char* title = "Shooter";
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
 
-} windowSettings;
 
 int WinMain()
 {
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-        return 1;
+	if (!glfwInit())
+		return 1;
 
-    SDL_Window* win = SDL_CreateWindow(windowSettings.title,
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        windowSettings.size_x, windowSettings.size_y, 0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-    while (true)
-    {
+	GLFWwindow* window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+	if (!window)
+	{
+		glfwTerminate();
+		return 1;
+	}
 
-    }
+	glfwSetKeyCallback(window, key_callback);
+
+	glfwMakeContextCurrent(window);
+	gladLoadGL(glfwGetProcAddress);
+
+	while (!glfwWindowShouldClose(window))
+	{
+		render::render_act();
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	glfwDestroyWindow(window);
+	glfwTerminate();
 
 	return 0;
 }

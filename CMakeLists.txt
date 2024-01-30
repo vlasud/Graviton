@@ -8,14 +8,20 @@ set(CMAKE_CXX_EXTENSIONS Off)
 
 add_executable(${PROJECT_NAME} WIN32
 	src/main.cpp
+
+	third_party/glfw/deps/glad_gl.c
 )
 
 include_directories(include)
 
-# SDL
-add_subdirectory(third_party/SDL EXCLUDE_FROM_ALL)
-target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2)
-include_directories(third_party/SDL/include)
+# GLFW
+add_subdirectory(third_party/glfw)
+link_libraries(glfw)
+include_directories(third_party/glfw/include)
+include_directories(third_party/glfw/deps)
+
+find_package(OpenGL REQUIRED)
+link_libraries(OpenGL::GL)
 
 # Render
 add_subdirectory(src/render)
