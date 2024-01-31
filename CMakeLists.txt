@@ -23,6 +23,9 @@ include_directories(third_party/glfw/deps)
 find_package(OpenGL REQUIRED)
 link_libraries(OpenGL::GL)
 
+# GLM
+include_directories(third_party/glm)
+
 # Render
 add_subdirectory(src/render)
 target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_render)
