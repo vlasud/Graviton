@@ -2,7 +2,6 @@
 
 #include <render/render.h>
 #include <input/input.h>
-#include <core/objectsManager.h>
 #include <core/sceneManager.h>
 
 #include <chrono>
@@ -11,7 +10,7 @@
 GLFWwindow* window;
 
 
-static double calc_delta_time()
+static inline double calc_delta_time()
 {
 	static std::chrono::high_resolution_clock deltaTimeTimer;
 	static auto prevTime = deltaTimeTimer.now();
@@ -29,7 +28,7 @@ static void engine_act()
 	double deltaTime = calc_delta_time();
 
 	engine_input_act(deltaTime);
-	engine_objects_act(deltaTime);
+	engine_scene_act(deltaTime);
 	engine_render_act(deltaTime);
 }
 
@@ -55,7 +54,7 @@ int init_engine(const InitEngineArgs args)
 	}
 
 	engine_input_init(window);
-	engine_load_scene(args.sceneName);
+	//engine_load_scene(args.sceneName);
 
 	glfwMakeContextCurrent(window);
 	gladLoadGL(glfwGetProcAddress);
