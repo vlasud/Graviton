@@ -1,6 +1,4 @@
 #pragma once
 
-namespace render
-{
-	void render_act();
-};
+
+void engine_render_act(double deltaTime);

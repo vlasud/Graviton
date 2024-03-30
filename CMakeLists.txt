@@ -9,8 +9,7 @@ set(CMAKE_CXX_EXTENSIONS Off)
 add_executable(${PROJECT_NAME} WIN32
 	src/main.cpp
 
-	third_party/glfw/deps/glad_gl.c
-)
+	third_party/glfw/deps/glad_gl.c "include/core/sceneManager.h" "include/core/scene.h")
 
 include_directories(include)
 
@@ -29,3 +28,15 @@ include_directories(third_party/glm)
 # Render
 add_subdirectory(src/render)
 target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_render)
+
+# Input
+add_subdirectory(src/input)
+target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_input)
+
+# Core
+add_subdirectory(src/core)
+target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_core)
+
+# Scripts
+add_subdirectory(src/scripts)
+target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_scripts)
