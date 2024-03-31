@@ -9,7 +9,7 @@ set(CMAKE_CXX_EXTENSIONS Off)
 add_executable(${PROJECT_NAME} WIN32
 	src/main.cpp
 
-	third_party/glfw/deps/glad_gl.c)
+	third_party/glfw/deps/glad_gl.c "include/render/shaders.h")
 
 include_directories(include)
 

@@ -4,4 +4,4 @@ project(3d_shooter_render)
 
 add_library(${PROJECT_NAME}
 	render.cpp
-)
+	shaders.cpp)

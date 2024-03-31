@@ -53,11 +53,10 @@ int init_engine(const InitEngineArgs args)
 		return 1;
 	}
 
-	engine_input_init(window);
-	//engine_load_scene(args.sceneName);
-
 	glfwMakeContextCurrent(window);
 	gladLoadGL(glfwGetProcAddress);
+
+	engine_load_shaders("shaders");
 	
 	return 0;
 }
