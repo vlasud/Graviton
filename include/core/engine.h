@@ -3,16 +3,37 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+#include <core/scene.h>
+#include <render/render.h>
 #include <string>
 
 
-struct InitEngineArgs
+// singleton
+class Engine final
 {
-	uint32_t windowSize[2] = {640, 480};
-	const char* title = "None";
-	std::string sceneName;
-};
+	static Engine* engine;
 
-int init_engine(const InitEngineArgs args);
-void run_engine();
-void stop_engine();
+	struct WindowSettings
+	{
+		uint32_t size[2] = { 640, 480 };
+		std::string title = "Engine";
+	} windowSettings;
+
+	GLFWwindow* window;
+	Scene* scene;
+	Render* render;
+
+	Engine();
+	Engine(const Engine&) = delete;
+	Engine(const Engine&&) = delete;
+	~Engine();
+	Engine& operator = (const Engine&) = delete;
+	Engine& operator = (const Engine&&) = delete;
+
+public:
+
+	static Engine* makeEngine();
+	static void freeEngine();
+
+	void run();
+};

@@ -5,5 +5,5 @@ project(3d_shooter_core)
 add_library(${PROJECT_NAME}
   engine.cpp  
   object.cpp
-  sceneManager.cpp
-  scene.cpp)
+  scene.cpp
+  filesystem.cpp)

@@ -1,8 +1,32 @@
 #pragma once
 
 #include <string>
-
 #include <render/shaders.h>
+#include <render/renderObject.h>
+#include <vector>
+#include <memory>
 
-void engine_render_act(double deltaTime);
-void engine_load_shaders(const std::string& shaders_path);
+// singleton
+class Render final
+{
+	static Render* render;
+
+	uint32_t vertexBuffer;
+
+	std::vector<std::unique_ptr<ShaderProgram>> shaderPrograms;
+	std::vector<std::unique_ptr<RenderObject>> renderObjects;
+
+	Render();
+	~Render();
+	Render(const Render&) = delete;
+	Render(const Render&&) = delete;
+	Render& operator = (const Render&) = delete;
+	Render& operator = (const Render&&) = delete;
+
+public:
+
+	static Render* makeRender();
+	static void freeRender();
+
+	void act(double deltaTime);
+};

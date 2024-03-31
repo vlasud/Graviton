@@ -2,12 +2,11 @@
 
 #include <render/render.h>
 #include <input/input.h>
-#include <core/sceneManager.h>
 
 #include <chrono>
 
 
-GLFWwindow* window;
+Engine* Engine::engine = nullptr;
 
 
 static inline double calc_delta_time()
@@ -23,63 +22,83 @@ static inline double calc_delta_time()
 	return deltaTime;
 }
 
-static void engine_act()
+Engine* Engine::makeEngine()
 {
-	double deltaTime = calc_delta_time();
+	if (!engine)
+		engine = new Engine();
+	return engine;
+} 
 
-	engine_input_act(deltaTime);
-	engine_scene_act(deltaTime);
-	engine_render_act(deltaTime);
+void Engine::freeEngine()
+{
+	if (engine)
+		delete engine;
 }
 
-int init_engine(const InitEngineArgs args)
+Engine::Engine() :
+	window(nullptr), scene(nullptr), render(nullptr)
 {
 	if (!glfwInit())
-		return 1;
+		return;
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-	window = glfwCreateWindow(
-		args.windowSize[0],
-		args.windowSize[1],
-		args.title,
-		NULL,
-		NULL);
+	window = glfwCreateWindow(windowSettings.size[0], windowSettings.size[1],
+		windowSettings.title.c_str(), NULL, NULL);
 
 	if (!window)
 	{
 		glfwTerminate();
-		return 1;
+		return;
 	}
 
 	glfwMakeContextCurrent(window);
 	gladLoadGL(glfwGetProcAddress);
 
-	engine_load_shaders("shaders");
-	
-	return 0;
+	scene = new Scene();
+	if (!scene)
+	{
+		// TODO: handle
+		return;
+	}
+
+	render = Render::makeRender();
+	if (!render)
+	{
+		// TODO: handle
+		return;
+	}
 }
 
-void run_engine()
+Engine::~Engine()
+{
+	glfwDestroyWindow(window);
+	glfwTerminate();
+
+	if (scene)
+		delete scene;
+	if (render)
+		Render::freeRender();
+}
+
+void Engine::run()
 {
 	if (!window)
+	{
+		// TODO: handle
 		return;
+	}
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
 
-		engine_act();
+		double deltaTime = calc_delta_time();
+
+		scene->act(deltaTime);
+		render->act(deltaTime);
 
 		glfwSwapBuffers(window);
 	}
-
-	stop_engine();
-}
-
-void stop_engine()
-{
-	glfwDestroyWindow(window);
-	glfwTerminate();
 }
