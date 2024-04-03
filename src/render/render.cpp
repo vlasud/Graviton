@@ -7,8 +7,14 @@ Render* Render::render = nullptr;
 
 Render::Render()
 {
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	meshes.push_back(std::make_unique<BaseMesh>());
+	
+	auto shaderP = std::make_unique<ShaderProgram>();
+	shaderP->addShader("shaders/test.frag");
+	shaderP->addShader("shaders/test.vert");
+	shaderP->link();
+
+	shaderPrograms.push_back(std::move(shaderP));
 }
 
 Render::~Render()
@@ -38,5 +44,10 @@ void Render::act(double deltaTime)
 	{
 		if (shaderProgram)
 			shaderProgram->use();
+	}
+
+	for (auto& mesh : meshes)
+	{
+		mesh->draw();
 	}
 }

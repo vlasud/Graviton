@@ -13,22 +13,9 @@ static int determine_shader_type(const std::string& shader_path)
     return fileExtension == ".vert" ? GL_VERTEX_SHADER : fileExtension == ".frag" ? GL_FRAGMENT_SHADER : -1;
 }
 
-ShaderProgram::ShaderProgram(const std::string& path_to_shaders) :
-    id(0), error(0)
+ShaderProgram::ShaderProgram() :
+    id(glCreateProgram()), error(0)
 {
-    id = glCreateProgram();
-
-    for (auto& i : std::filesystem::directory_iterator(path_to_shaders))
-    {
-        if (i.is_directory())
-            continue;
-
-        Shader shader(i.path().string());
-        glAttachShader(id, shader.getId());
-        shaders.push_back(shader);
-    }
-
-    glLinkProgram(id);
 }
 
 ShaderProgram::~ShaderProgram()

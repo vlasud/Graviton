@@ -2,7 +2,7 @@
 
 #include <string>
 #include <render/shaders.h>
-#include <render/renderObject.h>
+#include <render/mesh.h>
 #include <vector>
 #include <memory>
 
@@ -11,10 +11,8 @@ class Render final
 {
 	static Render* render;
 
-	uint32_t vertexBuffer;
-
 	std::vector<std::unique_ptr<ShaderProgram>> shaderPrograms;
-	std::vector<std::unique_ptr<RenderObject>> renderObjects;
+	std::vector<std::unique_ptr<BaseMesh>> meshes;
 
 	Render();
 	~Render();
