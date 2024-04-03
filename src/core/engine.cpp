@@ -14,11 +14,8 @@ static inline double calc_delta_time()
 	static std::chrono::high_resolution_clock deltaTimeTimer;
 	static auto prevTime = deltaTimeTimer.now();
 	auto curTime = deltaTimeTimer.now();
-
 	double deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - prevTime).count() / 1000.0;
-
 	prevTime = curTime;
-
 	return deltaTime;
 }
 
