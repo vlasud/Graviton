@@ -1,4 +1,4 @@
-#include <render/shaders.h>
+#include <render/shader.h>
 
 #include <fstream>
 #include <filesystem>
@@ -12,25 +12,6 @@ static int determine_shader_type(const std::string& shader_path)
     filesystem::get_file_extension(shader_path, fileExtension);
     return fileExtension == ".vert" ? GL_VERTEX_SHADER : fileExtension == ".frag" ? GL_FRAGMENT_SHADER : -1;
 }
-
-ShaderProgram::ShaderProgram() :
-    id(glCreateProgram()), error(0)
-{
-}
-
-ShaderProgram::~ShaderProgram()
-{
-    glDeleteProgram(id);
-}
-
-void ShaderProgram::addShader(const std::string& path)
-{
-    Shader shader(path);
-    shaders.push_back(shader);
-
-    glAttachShader(id, shader.getId());
-}
-
 
 Shader::Shader(const std::string& path) :
     id(0)

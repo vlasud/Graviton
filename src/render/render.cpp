@@ -1,5 +1,5 @@
 #include <render/render.h>
-#include <render/shaders.h>
+#include <render/shader.h>
 
 
 Render* Render::render = nullptr;
@@ -7,18 +7,28 @@ Render* Render::render = nullptr;
 
 Render::Render()
 {
-	meshes.push_back(std::make_unique<BaseMesh>());
-	
-	auto shaderP = std::make_unique<ShaderProgram>();
+	// pos attribute
+	glEnableVertexAttribArray(0);
+	// color attribute
+	glEnableVertexAttribArray(1);
+
+	auto shaderP = new ShaderProgram();
 	shaderP->addShader("shaders/test.frag");
 	shaderP->addShader("shaders/test.vert");
 	shaderP->link();
 
-	shaderPrograms.push_back(std::move(shaderP));
+	shaderPrograms.push_back(shaderP);
 }
 
 Render::~Render()
 {
+	for (auto& i : shaderPrograms)
+		if (i)
+			delete i;
+
+	for (auto& i : meshes)
+		if (i)
+			delete i;
 }
 
 Render* Render::makeRender()
@@ -50,4 +60,18 @@ void Render::act(double deltaTime)
 	{
 		mesh->draw();
 	}
+}
+
+void Render::addMesh(BaseMesh* mesh)
+{
+	if (!mesh)
+		return;
+
+	float vertex[6] = {
+		-0.5f,  0.5f,
+		 0.0f,  0.5f,
+		 0.5f, -0.5f
+	};
+
+	meshes.push_back(new BaseMesh((void*)vertex, 6));
 }

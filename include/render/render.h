@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <render/shaders.h>
+#include <render/shaderProgram.h>
 #include <render/mesh.h>
 #include <vector>
 #include <memory>
@@ -11,8 +11,8 @@ class Render final
 {
 	static Render* render;
 
-	std::vector<std::unique_ptr<ShaderProgram>> shaderPrograms;
-	std::vector<std::unique_ptr<BaseMesh>> meshes;
+	std::vector<ShaderProgram*> shaderPrograms;
+	std::vector<BaseMesh*> meshes;
 
 	Render();
 	~Render();
@@ -27,4 +27,5 @@ public:
 	static void freeRender();
 
 	void act(double deltaTime);
+	void addMesh(BaseMesh* mesh);
 };

@@ -8,17 +8,16 @@ using vertex = glm::vec3;
 
 class BaseMesh
 {
-	uint32_t VAO, VBO;
+	uint32_t VBO;
 	std::vector<vertex> vertexArray;
-	std::vector<uint32_t> VBOs;
 
 	BaseMesh(const BaseMesh&) = delete;
 	BaseMesh& operator = (const BaseMesh&) = delete;
 
 public:
 
-	BaseMesh();
+	BaseMesh(void *data, size_t length);
 	virtual ~BaseMesh();
 
-	void draw();
+	virtual void draw();
 };
