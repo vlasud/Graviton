@@ -8,35 +8,8 @@ Render* Render::render = nullptr;
 Render::Render()
 {
 	shaders.push_back(new Shader("../../../shaders/test.glsl"));
-	//shaders.push_back(new Shader("shaders/test_a.glsl"));
 
-	float a[6] = {
-		-0.5f,  0.5f,
-		 0.0f,  0.5f,
-		 0.5f, -0.5f
-	};
-
-	float color_a[12] = {
-		-0.5f,  0.5f, -0.5f,  1,
-		 0.0f,  0.5f, -0.5f,  1,
-		 0.5f, -0.5f, - 0.5f,  1,
-	};
-
-	meshes.push_back(new BaseMesh((void*)a, 6, (void*)color_a, 12));
-
-	float b[6] = {
-		-1.0,   -1.0f,
-		 1.0f,  2.0f,
-		 2.0f,  -2.0f
-	};
-
-	float color_b[12] = {
-		-0.5f,  0.5f, -0.5f,  1,
-		 0.0f,  0.5f, -0.5f,  1,
-		 0.5f, -0.5f, -0.5f,  1,
-	};
-
-	meshes.push_back(new BaseMesh((void*)b, 6, (void*)color_b, 12));
+	meshes.push_back(new BaseMesh("../../../assets/box.obj"));
 }
 
 Render::~Render()

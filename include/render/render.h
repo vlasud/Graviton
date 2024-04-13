@@ -6,6 +6,12 @@
 #include <vector>
 #include <memory>
 
+struct Vertex
+{
+	glm::vec3 pos;
+	glm::vec3 norm;
+};
+
 // singleton
 class Render final
 {

@@ -2,31 +2,39 @@
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include <fstream>
+#include <cassert>
+#include <render/objFile.h>
 
-BaseMesh::BaseMesh(void* data, size_t length, void *color_data, size_t color_data_length) :
-	VBO(0), colorVBO(0), VAO(0), data(data), dataLen(length), colorData(color_data), colorDataLen(color_data_length)
+BaseMesh::BaseMesh(const std::string& path_to_obj)
 {
+	ObjFile *obj = new ObjFile(path_to_obj);
+	
+	delete obj;
+	/*
 	assert(data);
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, dataLen * sizeof(float), data, GL_STATIC_DRAW);
+	glGenBuffers(1, &VBO[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+	glBufferData(GL_ARRAY_BUFFER, vertexDataLen * sizeof(float), data, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glEnableVertexAttribArray(0);
 
-	glGenBuffers(1, &colorVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	glGenBuffers(1, &VBO[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
 	glBufferData(GL_ARRAY_BUFFER, colorDataLen * sizeof(float), colorData, GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(1);*/
 }
 
 BaseMesh::~BaseMesh()
 {
-	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &VBO[0]);
+	glDeleteBuffers(1, &VBO[1]);
+	glDeleteVertexArrays(1, &VAO);
 }
 
 void BaseMesh::draw()

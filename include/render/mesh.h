@@ -2,16 +2,16 @@
 
 #include <vector>
 #include <glm/glm.hpp>
+#include <string>
 
-
-using vertex = glm::vec3;
 
 class BaseMesh
 {
-	uint32_t VBO, colorVBO, VAO;
+	uint32_t VAO;
+	uint32_t VBO[2];
 	
-	void* data;
-	size_t dataLen;
+	void* vertexData;
+	size_t vertexDataLen;
 
 	void* colorData;
 	size_t colorDataLen;
@@ -21,7 +21,7 @@ class BaseMesh
 
 public:
 
-	BaseMesh(void *data, size_t length, void* color_data, size_t color_data_length);
+	BaseMesh(const std::string& path_to_obj);
 	virtual ~BaseMesh();
 
 	virtual void draw();
