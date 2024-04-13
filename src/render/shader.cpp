@@ -2,34 +2,76 @@
 
 #include <fstream>
 #include <filesystem>
-#include <core/filesystem.h>
 #include <cassert>
 
 
-static int determine_shader_type(const std::string& shader_path)
+Shader::Shader(const std::string& shader_path) :
+    programId(0)
 {
-    std::string fileExtension;
-    filesystem::get_file_extension(shader_path, fileExtension);
-    return fileExtension == ".vert" ? GL_VERTEX_SHADER : fileExtension == ".frag" ? GL_FRAGMENT_SHADER : -1;
-}
+    programId = glCreateProgram();
 
-Shader::Shader(const std::string& path) :
-    id(0)
-{
-    int shaderType = determine_shader_type(path);
-    assert(shaderType == GL_VERTEX_SHADER || shaderType == GL_FRAGMENT_SHADER);
+    std::ifstream stream(shader_path);
+    assert(stream.is_open());
 
-    id = glCreateShader(shaderType);
+    uint32_t currentShaderType = 0, newShaderType = 0;
+    std::string shaderSource, line;
+    bool isStartShaderSource = false, isFileEnd = false;
 
-    std::string shaderContent;
-    filesystem::read_file_content(path, shaderContent);
+    while (!isFileEnd)
+    {
+        std::getline(stream, line);
+        isFileEnd = stream.eof();
 
-    const char* shaderContent_C = shaderContent.c_str();
-    glShaderSource(id, 1, &shaderContent_C, nullptr);
-    glCompileShader(id);
+        if (line.find("#vertex") != std::string::npos)
+        {
+            newShaderType = GL_VERTEX_SHADER;
+            if (!currentShaderType)
+                currentShaderType = newShaderType;
+            isStartShaderSource = true;
+        }
+        else if (line.find("#fragment") != std::string::npos)
+        {
+            newShaderType = GL_FRAGMENT_SHADER;
+            if (!currentShaderType)
+                currentShaderType = newShaderType;
+            isStartShaderSource = true;
+        }
+
+        if (isStartShaderSource || isFileEnd)
+        {
+            isStartShaderSource = false;
+            if (isFileEnd)
+                shaderSource += line;
+            if (!shaderSource.empty())
+            {
+                uint32_t shaderId = glCreateShader(currentShaderType);
+                const char* source_c = shaderSource.c_str();
+                glShaderSource(shaderId, 1, &source_c, nullptr);
+                glCompileShader(shaderId);
+                GLint success;
+                glGetShaderiv(shaderId, GL_COMPILE_STATUS, &success);
+                assert(success); // TODO: handle
+                glAttachShader(programId, shaderId);
+                glDeleteShader(shaderId);
+                shaderSource.clear();
+            }
+            currentShaderType = newShaderType;
+            continue;
+        }
+
+        shaderSource += line + '\n';
+    }
+
+    glLinkProgram(programId);
+    stream.close();
 }
 
 Shader::~Shader()
 {
-    glDeleteShader(id);
+    glDeleteProgram(programId);
+}
+
+void Shader::use()
+{
+    glUseProgram(programId);
 }

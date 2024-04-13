@@ -6,4 +6,4 @@ add_library(${PROJECT_NAME}
 	render.cpp
 	shader.cpp
 	mesh.cpp
-	shaderProgram.cpp)
+	)
