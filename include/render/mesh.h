@@ -8,13 +8,11 @@
 class BaseMesh
 {
 	uint32_t VAO;
-	uint32_t VBO[2];
+	uint32_t VBO[3];
 	
-	void* vertexData;
-	size_t vertexDataLen;
-
-	void* colorData;
-	size_t colorDataLen;
+	std::vector<glm::vec3> vertexes;
+	std::vector<uint32_t> indexes;
+	std::vector<glm::vec4> colors;
 
 	BaseMesh(const BaseMesh&) = delete;
 	BaseMesh& operator = (const BaseMesh&) = delete;

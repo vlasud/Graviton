@@ -53,6 +53,17 @@ Engine::Engine() :
 	glfwMakeContextCurrent(window);
 	gladLoadGL(glfwGetProcAddress);
 
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
+	glViewport(0, 0, width, height);
+
+	glClearColor(0, 0, 0, 1);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(-100, 100, -100, 100, 100, 2000);
+	glMatrixMode(GL_MODELVIEW);
+	glOrtho(-width, width, height, -height, -1.0f, 1.0f);
+
 	scene = new Scene();
 	if (!scene)
 	{
