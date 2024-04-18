@@ -35,14 +35,11 @@ ObjFile::ObjFile(const std::string& path_to_file)
 		else if (parts.front() == "f")
 		{
 			std::vector<std::string> indexParts;
-			utils::split_string(parts[1], '/', indexParts);
-			indexes.push_back(atoi(indexParts.front().c_str()) - 1);
-			utils::split_string(parts[2], '/', indexParts);
-			indexes.push_back(atoi(indexParts.front().c_str()) - 1);
-			utils::split_string(parts[3], '/', indexParts);
-			indexes.push_back(atoi(indexParts.front().c_str()) - 1);
-			utils::split_string(parts[4], '/', indexParts);
-			indexes.push_back(atoi(indexParts.front().c_str()) - 1);
+			for (int i = 1; i < parts.size(); ++i)
+			{
+				utils::split_string(parts[i], '/', indexParts);
+				indexes.push_back(atoi(indexParts.front().c_str()) - 1);
+			}
 		}
 	}
 
