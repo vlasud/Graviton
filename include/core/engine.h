@@ -25,10 +25,10 @@ class Engine final
 
 	Engine();
 	Engine(const Engine&) = delete;
-	Engine(const Engine&&) = delete;
+	Engine(Engine&&) = delete;
 	~Engine();
 	Engine& operator = (const Engine&) = delete;
-	Engine& operator = (const Engine&&) = delete;
+	Engine& operator = (Engine&&) = delete;
 
 public:
 

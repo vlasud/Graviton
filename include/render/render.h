@@ -17,9 +17,9 @@ class Render final
 	Render();
 	~Render();
 	Render(const Render&) = delete;
-	Render(const Render&&) = delete;
+	Render(Render&&) = delete;
 	Render& operator = (const Render&) = delete;
-	Render& operator = (const Render&&) = delete;
+	Render& operator = (Render&&) = delete;
 
 public:
 

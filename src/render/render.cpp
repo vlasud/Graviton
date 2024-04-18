@@ -9,7 +9,7 @@ Render::Render()
 {
 	shaders.push_back(new Shader("../../../shaders/test.glsl"));
 
-	meshes.push_back(new BaseMesh("../../../assets/box.obj"));
+	meshes.push_back(new BaseMesh("../../../assets/conus.obj"));
 }
 
 Render::~Render()
