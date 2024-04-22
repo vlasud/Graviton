@@ -1,7 +1,6 @@
 #include <render/shader.h>
 
 #include <fstream>
-#include <filesystem>
 #include <cassert>
 
 

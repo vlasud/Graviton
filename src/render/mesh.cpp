@@ -2,7 +2,6 @@
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include <fstream>
 #include <cassert>
 #include <render/objFile.h>
 

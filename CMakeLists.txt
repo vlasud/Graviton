@@ -1,42 +1,34 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(3d_shooter)
+project(graviton)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_EXTENSIONS Off)
 
-add_executable(${PROJECT_NAME} WIN32
-	src/main.cpp
-
-	third_party/glfw/deps/glad_gl.c)
-
-include_directories(include)
+add_library(${PROJECT_NAME} third_party/glfw/deps/glad_gl.c)
 
 # GLFW
 add_subdirectory(third_party/glfw)
-link_libraries(glfw)
-include_directories(third_party/glfw/include)
-include_directories(third_party/glfw/deps)
-
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 find_package(OpenGL REQUIRED)
-link_libraries(OpenGL::GL)
+target_link_libraries(${PROJECT_NAME} PUBLIC OpenGL::GL)
 
 # GLM
-include_directories(third_party/glm)
+target_include_directories(${PROJECT_NAME} PUBLIC third_party/glm)
 
 # Render
 add_subdirectory(src/render)
-target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_render)
+target_link_libraries(${PROJECT_NAME} PUBLIC graviton_render)
 
 # Input
 add_subdirectory(src/input)
-target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_input)
+target_link_libraries(${PROJECT_NAME} PUBLIC graviton_input)
 
 # Core
 add_subdirectory(src/core)
-target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_core)
+target_link_libraries(${PROJECT_NAME} PUBLIC graviton_core)
 
 # Utils
 add_subdirectory(src/utils)
-target_link_libraries(${PROJECT_NAME} PRIVATE 3d_shooter_utils)
+target_link_libraries(${PROJECT_NAME} PUBLIC graviton_utils)

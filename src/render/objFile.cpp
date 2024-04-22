@@ -1,7 +1,6 @@
 #include <render/objFile.h>
 #include <core/filesystem.h>
 #include <utils/stringUtils.h>
-#include <sstream>
 #include <cassert>
 
 ObjFile::ObjFile(const std::string& path_to_file)

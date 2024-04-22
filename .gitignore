@@ -32,6 +32,6 @@
 
 
 CMakeSettings.json
-
+.cache
 .vs
 out
