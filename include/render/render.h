@@ -9,23 +9,23 @@
 // singleton
 class Render final
 {
-	static Render* render;
+    static Render* render;
 
-	std::vector<BaseMesh*> meshes;
-	std::vector<Shader*> shaders;
+    std::vector<BaseMesh*> meshes;
+    std::vector<Shader*> shaders;
 
-	Render();
-	~Render();
-	Render(const Render&) = delete;
-	Render(Render&&) = delete;
-	Render& operator = (const Render&) = delete;
-	Render& operator = (Render&&) = delete;
+    Render();
+    ~Render();
+    Render(const Render&) = delete;
+    Render(Render&&) = delete;
+    Render& operator = (const Render&) = delete;
+    Render& operator = (Render&&) = delete;
 
 public:
 
-	static Render* makeRender();
-	static void freeRender();
+    static Render* makeRender();
+    static void freeRender();
 
-	void act(double deltaTime);
-	void addMesh(BaseMesh* mesh);
+    void act(double deltaTime);
+    void addMesh(BaseMesh* mesh);
 };

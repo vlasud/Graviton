@@ -7,12 +7,12 @@
 
 class Shader
 {
-	uint32_t programId;
+    uint32_t programId;
 
 public:
 
-	explicit Shader(const std::string& shader_path);
-	virtual ~Shader();
+    explicit Shader(const std::string& shader_path);
+    virtual ~Shader();
 
-	void use();
+    void use();
 };

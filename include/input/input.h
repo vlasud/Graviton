@@ -9,6 +9,6 @@ void engine_input_act(double deltaTime);
 
 struct InputAction
 {
-	int keyCode;
-	int action;
+    int keyCode;
+    int action;
 };

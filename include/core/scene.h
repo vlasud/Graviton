@@ -7,19 +7,19 @@
 
 class Scene final
 {
-	Scene(const Scene&) = delete;
-	Scene(Scene&&) = delete;
+    Scene(const Scene&) = delete;
+    Scene(Scene&&) = delete;
 
-	Scene& operator = (const Scene&) = delete;
-	Scene& operator = (Scene&&) = delete;
+    Scene& operator = (const Scene&) = delete;
+    Scene& operator = (Scene&&) = delete;
 
-	std::string name;
-	std::vector<Object> objectsPool;
+    std::string name;
+    std::vector<Object> objectsPool;
 
 public:
 
-	Scene() = default;
-	~Scene();
+    Scene() = default;
+    ~Scene();
 
-	void act(double deltaTime);
+    void act(double deltaTime);
 };

@@ -11,29 +11,29 @@
 // singleton
 class Engine final
 {
-	static Engine* engine;
+    static Engine* engine;
 
-	struct WindowSettings
-	{
-		uint32_t size[2] = { 640, 480 };
-		std::string title = "Engine";
-	} windowSettings;
+    struct WindowSettings
+    {
+        uint32_t size[2] = { 640, 480 };
+        std::string title = "Engine";
+    } windowSettings;
 
-	GLFWwindow* window;
-	Scene* scene;
-	Render* render;
+    GLFWwindow* window;
+    Scene* scene;
+    Render* render;
 
-	Engine();
-	Engine(const Engine&) = delete;
-	Engine(Engine&&) = delete;
-	~Engine();
-	Engine& operator = (const Engine&) = delete;
-	Engine& operator = (Engine&&) = delete;
+    Engine();
+    Engine(const Engine&) = delete;
+    Engine(Engine&&) = delete;
+    ~Engine();
+    Engine& operator = (const Engine&) = delete;
+    Engine& operator = (Engine&&) = delete;
 
 public:
 
-	static Engine* makeEngine();
-	static void freeEngine();
+    static Engine* makeEngine();
+    static void freeEngine();
 
-	void run();
+    void run();
 };
