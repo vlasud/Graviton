@@ -1,10 +1,8 @@
 #pragma once
 
-#include <string>
 #include <render/shader.h>
 #include <render/mesh.h>
 #include <vector>
-#include <memory>
 
 // singleton
 class Render final

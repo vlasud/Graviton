@@ -36,4 +36,5 @@ public:
     static void freeEngine();
 
     void run();
+    bool initEngine();
 };

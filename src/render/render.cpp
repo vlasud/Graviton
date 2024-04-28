@@ -7,9 +7,9 @@ Render* Render::render = nullptr;
 
 Render::Render()
 {
-    shaders.push_back(new Shader("../../../shaders/test.glsl"));
+    shaders.push_back(new Shader("../graviton/shaders/test.glsl"));
 
-    meshes.push_back(new BaseMesh("../../../assets/conus.obj"));
+    meshes.push_back(new BaseMesh("../assets/conus.obj"));
 }
 
 Render::~Render()

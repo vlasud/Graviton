@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <cassert>
 #include <render/objFile.h>
+#include <memory>
 
 BaseMesh::BaseMesh(const std::string& path_to_obj)
 {

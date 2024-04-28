@@ -24,59 +24,20 @@ Engine* Engine::makeEngine()
     if (!engine)
         engine = new Engine();
     return engine;
-} 
+}
 
 void Engine::freeEngine()
 {
     if (engine)
+    {
         delete engine;
+        engine = nullptr;
+    }
 }
 
 Engine::Engine() :
     window(nullptr), scene(nullptr), render(nullptr)
 {
-    if (!glfwInit())
-        return;
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-
-    window = glfwCreateWindow(windowSettings.size[0], windowSettings.size[1],
-        windowSettings.title.c_str(), NULL, NULL);
-
-    if (!window)
-    {
-        glfwTerminate();
-        return;
-    }
-
-    glfwMakeContextCurrent(window);
-    gladLoadGL(glfwGetProcAddress);
-
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    glViewport(0, 0, width, height);
-
-    glClearColor(0, 0, 0, 1);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-100, 100, -100, 100, 100, 2000);
-    glMatrixMode(GL_MODELVIEW);
-    glOrtho(-width, width, height, -height, -1.0f, 1.0f);
-
-    scene = new Scene();
-    if (!scene)
-    {
-        // TODO: handle
-        return;
-    }
-
-    render = Render::makeRender();
-    if (!render)
-    {
-        // TODO: handle
-        return;
-    }
 }
 
 Engine::~Engine()
@@ -92,6 +53,9 @@ Engine::~Engine()
 
 void Engine::run()
 {
+    if (!scene || !render)
+        return;
+
     if (!window)
     {
         // TODO: handle
@@ -110,4 +74,53 @@ void Engine::run()
         glfwSwapBuffers(window);
     }
     
+}
+
+bool Engine::initEngine()
+{
+    if (!glfwInit())
+        return false;
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    window = glfwCreateWindow(windowSettings.size[0], windowSettings.size[1],
+        windowSettings.title.c_str(), NULL, NULL);
+
+    if (!window)
+    {
+        glfwTerminate();
+        return false;
+    }
+
+    glfwMakeContextCurrent(window);
+    gladLoadGL(glfwGetProcAddress);
+
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    glViewport(0, 0, width, height);
+
+    glClearColor(0, 0, 0, 1);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glFrustum(-1, 1, -1, 1, 1, 1);
+    glMatrixMode(GL_MODELVIEW);
+    glOrtho(-width, width, height, -height, -1.0f, 1.0f);
+
+    scene = new Scene();
+    if (!scene)
+    {
+        // TODO: handle
+        return false;
+    }
+
+    render = Render::makeRender();
+    if (!render)
+    {
+        // TODO: handle
+        return false;
+    }
+
+    return true;
 }

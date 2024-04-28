@@ -2,6 +2,7 @@
 #include <core/filesystem.h>
 #include <utils/stringUtils.h>
 #include <cassert>
+#include <fstream>
 
 ObjFile::ObjFile(const std::string& path_to_file)
 {

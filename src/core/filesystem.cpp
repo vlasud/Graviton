@@ -1,6 +1,7 @@
 #include <core/filesystem.h>
 #include <utils/stringUtils.h>
 #include <cassert>
+#include <fstream>
 
 
 void filesystem::read_file_content(const std::string& file_name, std::string& out)
