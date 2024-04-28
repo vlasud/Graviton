@@ -9,7 +9,7 @@ out vec4 fragmentColor;
 
 void main()
 {
-    gl_Position = position + vec4(0.01, 0, 0, 0);
+    gl_Position = position + vec4(0, 0, 0, 0);
     fragmentColor = color;
 }
 
@@ -23,5 +23,5 @@ out vec4 color;
 
 void main()
 {
-    color = fragmentColor;
+    color = vec4(1, 1, 1, 1);
 }

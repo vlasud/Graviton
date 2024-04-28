@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(graviton_render)
 
 add_library(${PROJECT_NAME}
-	render.cpp
+	renderer.cpp
 	shader.cpp
 	mesh.cpp
 	objFile.cpp)

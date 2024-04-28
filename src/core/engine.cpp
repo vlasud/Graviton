@@ -1,9 +1,10 @@
 #include <core/engine.h>
 
-#include <render/render.h>
+#include <render/renderer.h>
 #include <input/input.h>
 
 #include <chrono>
+#include <iostream>
 
 
 Engine* Engine::engine = nullptr;
@@ -36,7 +37,7 @@ void Engine::freeEngine()
 }
 
 Engine::Engine() :
-    window(nullptr), scene(nullptr), render(nullptr)
+    window(nullptr)
 {
 }
 
@@ -44,16 +45,11 @@ Engine::~Engine()
 {
     glfwDestroyWindow(window);
     glfwTerminate();
-
-    if (scene)
-        delete scene;
-    if (render)
-        Render::freeRender();
 }
 
 void Engine::run()
 {
-    if (!scene || !render)
+    if (!scene || !renderer)
         return;
 
     if (!window)
@@ -69,11 +65,11 @@ void Engine::run()
         double deltaTime = calc_delta_time();
 
         scene->act(deltaTime);
-        render->act(deltaTime);
+        renderer->act(deltaTime);
 
         glfwSwapBuffers(window);
     }
-    
+
 }
 
 bool Engine::initEngine()
@@ -101,26 +97,23 @@ bool Engine::initEngine()
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
 
-    glClearColor(0, 0, 0, 1);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glFrustum(-1, 1, -1, 1, 1, 1);
-    glMatrixMode(GL_MODELVIEW);
-    glOrtho(-width, width, height, -height, -1.0f, 1.0f);
-
-    scene = new Scene();
+    scene = std::make_unique<Scene>();
     if (!scene)
     {
         // TODO: handle
         return false;
     }
 
-    render = Render::makeRender();
-    if (!render)
+    renderer = std::make_unique<Renderer>();
+    if (!renderer)
     {
         // TODO: handle
         return false;
     }
+
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR)
+        std::cout << "OpenGL error: " << error << std::endl;
 
     return true;
 }

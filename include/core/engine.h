@@ -4,8 +4,9 @@
 #include <GLFW/glfw3.h>
 
 #include <core/scene.h>
-#include <render/render.h>
+#include <render/renderer.h>
 #include <string>
+#include <memory>
 
 
 // singleton
@@ -19,9 +20,9 @@ class Engine final
         std::string title = "Engine";
     } windowSettings;
 
-    GLFWwindow* window;
-    Scene* scene;
-    Render* render;
+    GLFWwindow *window;
+    std::unique_ptr<Scene> scene;
+    std::unique_ptr<Renderer> renderer;
 
     Engine();
     Engine(const Engine&) = delete;
