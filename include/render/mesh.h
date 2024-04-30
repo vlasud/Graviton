@@ -30,7 +30,7 @@ protected:
 
 public:
 
-    BaseMesh(const std::string& path_to_obj);
+    BaseMesh(const std::string& path_to_obj, const glm::mat4 transform = glm::mat4(1));
     virtual ~BaseMesh();
 
     void setShouldDraw(bool value);

@@ -17,12 +17,13 @@ class Renderer final
     Renderer& operator = (Renderer&&) = delete;
 
     glm::mat4 view;
+    glm::mat4 projection;
 
     void drawMesh(double delta_time);
 
 public:
 
-    Renderer();
+    Renderer(int width, int height);
     ~Renderer();
 
     void act(double delta_time);

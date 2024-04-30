@@ -9,13 +9,12 @@ out vec4 fragmentColor;
 
 uniform mat4 transform;
 uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-    gl_Position = view * transform * position;
-
-    vec4 resColor = mix(vec4(1, 1, 1, 1), vec4(0, 0, 0, 1), 0.9);
-    fragmentColor = resColor;
+    gl_Position = projection * view * transform * position;
+    fragmentColor = position;
 }
 
 #fragment

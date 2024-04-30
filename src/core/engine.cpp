@@ -96,7 +96,7 @@ bool Engine::initEngine()
         return false;
     }
 
-    renderer = std::make_unique<Renderer>();
+    renderer = std::make_unique<Renderer>(width, height);
     if (!renderer)
     {
         // TODO: handle

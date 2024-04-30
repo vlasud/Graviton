@@ -7,8 +7,8 @@
 #include <memory>
 
 
-BaseMesh::BaseMesh(const std::string& path_to_obj) :
-    transform(glm::mat4(1)), shouldDraw(true)
+BaseMesh::BaseMesh(const std::string& path_to_obj, const glm::mat4 transform) :
+    transform(transform), shouldDraw(true)
 {
     auto obj = std::make_unique<ObjFile>(path_to_obj);
 
@@ -35,7 +35,7 @@ BaseMesh::~BaseMesh()
 
 void BaseMesh::draw(double delta_time, uint32_t shader_program_id)
 {
-    transform = glm::rotate(transform, (float)delta_time * 0.1f, glm::vec3(0, 0.5, 0.5));
+    transform = glm::rotate(transform, (float)delta_time, glm::vec3(0, 1, 0));
 
     GLuint transformLoc = glGetUniformLocation(shader_program_id, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
