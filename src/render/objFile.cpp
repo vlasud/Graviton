@@ -24,13 +24,14 @@ ObjFile::ObjFile(const std::string& path_to_file)
 
         // vertex
         if (parts.front() == "v")
-        {
-            glm::vec3 vertex;
-            vertex.x = (float)atof(parts[1].c_str());
-            vertex.y = (float)atof(parts[2].c_str());
-            vertex.z = (float)atof(parts[3].c_str());
-            vertexes.push_back(vertex);
-        }
+            for (int i = 1; i <= 3; ++i)
+                v.push_back((float)atof(parts[i].c_str()));
+
+        // vertex texture pos
+        if (parts.front() == "vt")
+            for (int i = 1; i <= 2; ++i)
+                vt.push_back((float)atof(parts[i].c_str()));
+
         // indexes
         else if (parts.front() == "f")
         {
@@ -38,7 +39,7 @@ ObjFile::ObjFile(const std::string& path_to_file)
             for (int i = 1; i < parts.size(); ++i)
             {
                 utils::split_string(parts[i], '/', indexParts);
-                indexes.push_back(atoi(indexParts.front().c_str()) - 1);
+                fv.push_back(atoi(indexParts.front().c_str()) - 1);
             }
         }
     }

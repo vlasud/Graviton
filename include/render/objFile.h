@@ -6,8 +6,10 @@
 
 struct ObjFile
 {
-    std::vector<glm::vec3> vertexes;
-    std::vector<uint32_t> indexes;
+    std::vector<float> v;
+    std::vector<float> vn;
+    std::vector<float> vt;
+    std::vector<uint32_t> fv;
 
     ObjFile(const std::string &path_to_file);
     ~ObjFile();

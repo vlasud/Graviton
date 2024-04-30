@@ -9,11 +9,9 @@
 #include <memory>
 
 
-// singleton
+// Meyers singleton
 class Engine final
 {
-    static Engine* engine;
-
     struct WindowSettings
     {
         uint32_t size[2] = { 640, 480 };
@@ -33,8 +31,7 @@ class Engine final
 
 public:
 
-    static Engine* makeEngine();
-    static void freeEngine();
+    static Engine* get();
 
     void run();
     bool initEngine();

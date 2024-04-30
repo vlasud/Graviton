@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_CXX_EXTENSIONS Off)
 
-add_library(${PROJECT_NAME} third_party/glfw/deps/glad_gl.c)
+add_library(${PROJECT_NAME} third_party/glfw/deps/glad_gl.c "include/render/vbo.h")
 
 # GLFW
 add_subdirectory(third_party/glfw)

@@ -6,44 +6,47 @@
 #include <render/objFile.h>
 #include <memory>
 
-BaseMesh::BaseMesh(const std::string& path_to_obj)
+
+BaseMesh::BaseMesh(const std::string& path_to_obj) :
+    transform(glm::mat4(1)), shouldDraw(true)
 {
     auto obj = std::make_unique<ObjFile>(path_to_obj);
-    vertexes = std::move(obj->vertexes);
-    indexes = std::move(obj->indexes);
+
+    vertexes = std::move(obj->v);
+    vertexesTexturePos = std::move(obj->vt);
+    indexes = std::move(obj->fv);
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    glGenBuffers(1, &VBO[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, vertexes.size() * sizeof(vertexes), vertexes.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    vertexVBO = std::make_unique<VBO<float>>(GL_ARRAY_BUFFER, vertexes);
+    vertexVBO->setVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(0);
 
-    glGenBuffers(1, &VBO[1]);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexes.size() * sizeof(uint32_t), indexes.data(), GL_STATIC_DRAW);
+    indexVBO  = std::make_unique<VBO<uint32_t>>(GL_ELEMENT_ARRAY_BUFFER, indexes);
 
-    /*
-    glGenBuffers(1, &VBO[1]);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-    glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(float), colors.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(1);*/
+    glBindVertexArray(0);
 }
 
 BaseMesh::~BaseMesh()
 {
-    glDeleteBuffers(1, &VBO[0]);
-    glDeleteBuffers(1, &VBO[1]);
     glDeleteVertexArrays(1, &VAO);
 }
 
-void BaseMesh::draw()
+void BaseMesh::draw(double delta_time, uint32_t shader_program_id)
 {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    transform = glm::rotate(transform, (float)delta_time * 0.1f, glm::vec3(0, 0.5, 0.5));
+
+    GLuint transformLoc = glGetUniformLocation(shader_program_id, "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indexes.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+}
+
+void BaseMesh::setShouldDraw(bool value)
+{
+    shouldDraw = value;
 }

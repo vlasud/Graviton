@@ -7,10 +7,15 @@ layout (location = 1) in vec4 color;
 
 out vec4 fragmentColor;
 
+uniform mat4 transform;
+uniform mat4 view;
+
 void main()
 {
-    gl_Position = position + vec4(0, 0, 0, 0);
-    fragmentColor = color;
+    gl_Position = view * transform * position;
+
+    vec4 resColor = mix(vec4(1, 1, 1, 1), vec4(0, 0, 0, 1), 0.9);
+    fragmentColor = resColor;
 }
 
 #fragment
@@ -23,5 +28,5 @@ out vec4 color;
 
 void main()
 {
-    color = vec4(1, 1, 1, 1);
+    color = fragmentColor;
 }

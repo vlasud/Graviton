@@ -3,23 +3,28 @@
 #include <render/shader.h>
 #include <render/mesh.h>
 #include <vector>
+#include <memory>
 
 
 class Renderer final
 {
-    std::vector<BaseMesh*> meshes;
-    std::vector<Shader*> shaders;
+    std::vector<std::unique_ptr<BaseMesh>> meshes;
+    std::unique_ptr<Shader> meshShader;
 
     Renderer(const Renderer&) = delete;
     Renderer(Renderer&&) = delete;
     Renderer& operator = (const Renderer&) = delete;
     Renderer& operator = (Renderer&&) = delete;
 
+    glm::mat4 view;
+
+    void drawMesh(double delta_time);
+
 public:
 
     Renderer();
     ~Renderer();
 
-    void act(double deltaTime);
+    void act(double delta_time);
     void addMesh(BaseMesh* mesh);
 };

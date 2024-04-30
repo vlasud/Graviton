@@ -2,9 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(graviton_input)
 
-add_library(${PROJECT_NAME}
-	input.cpp
-)
+file(GLOB SOURCES *.cpp)
+add_library(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../../include)
 

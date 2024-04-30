@@ -2,12 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(graviton_render)
 
-add_library(${PROJECT_NAME}
-	renderer.cpp
-	shader.cpp
-	mesh.cpp
-	objFile.cpp)
-
+file(GLOB SOURCES *.cpp)
+add_library(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../../include)
 

@@ -7,9 +7,6 @@
 #include <iostream>
 
 
-Engine* Engine::engine = nullptr;
-
-
 static inline double calc_delta_time()
 {
     static std::chrono::high_resolution_clock deltaTimeTimer;
@@ -20,20 +17,12 @@ static inline double calc_delta_time()
     return deltaTime;
 }
 
-Engine* Engine::makeEngine()
+Engine* Engine::get()
 {
+    static Engine* engine = nullptr;
     if (!engine)
-        engine = new Engine();
+        engine = new Engine;
     return engine;
-}
-
-void Engine::freeEngine()
-{
-    if (engine)
-    {
-        delete engine;
-        engine = nullptr;
-    }
 }
 
 Engine::Engine() :
@@ -96,6 +85,9 @@ bool Engine::initEngine()
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     glViewport(0, 0, width, height);
+
+
+    glEnable(GL_DEPTH_TEST);
 
     scene = std::make_unique<Scene>();
     if (!scene)

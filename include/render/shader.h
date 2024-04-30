@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <vector>
 
 class Shader
 {
@@ -11,8 +12,9 @@ class Shader
 
 public:
 
-    explicit Shader(const std::string& shader_path);
+    explicit Shader(const std::vector<std::string>& shader_files);
     virtual ~Shader();
 
     void use();
+    __forceinline uint32_t getProgramId() const { return programId; }
 };
