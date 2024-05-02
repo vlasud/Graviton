@@ -9,15 +9,15 @@
 #include <memory>
 
 
+struct EngineInitDesc
+{
+    uint32_t windowSize[2];
+    std::string title;
+};
+
 // Meyers singleton
 class Engine final
 {
-    struct WindowSettings
-    {
-        uint32_t size[2] = { 640, 480 };
-        std::string title = "Engine";
-    } windowSettings;
-
     GLFWwindow *window;
     std::unique_ptr<Scene> scene;
     std::unique_ptr<Renderer> renderer;
@@ -34,5 +34,5 @@ public:
     static Engine* get();
 
     void run();
-    bool initEngine();
+    bool initEngine(const EngineInitDesc &init_desc);
 };

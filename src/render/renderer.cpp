@@ -8,11 +8,11 @@ Renderer::Renderer(int width, int height) :
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
     projection = glm::perspective( 45.0f, (float)width/(float)height, 0.1f, 100.0f);
 
-    meshes.push_back(std::make_unique<BaseMesh>("../assets/duck.obj"));
-    meshes.push_back(std::make_unique<BaseMesh>("../assets/fish.obj", glm::translate(glm::mat4(1), glm::vec3(0.5, 0.5, -1))));
+    meshes.push_back(std::make_unique<BaseMesh>("../../../assets/duck.obj"));
+    meshes.push_back(std::make_unique<BaseMesh>("../../../assets/fish.obj", glm::translate(glm::mat4(1), glm::vec3(0.5, 0.5, -1))));
 
     meshShader = std::make_unique<Shader>(std::vector<std::string>{
-        "../graviton/shaders/test.glsl"
+        "../../../graviton/shaders/test.glsl"
     });
 }
 

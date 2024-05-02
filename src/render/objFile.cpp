@@ -1,15 +1,23 @@
 #include <render/objFile.h>
 #include <core/filesystem.h>
 #include <utils/stringUtils.h>
-#include <cassert>
 #include <fstream>
+
 
 ObjFile::ObjFile(const std::string& path_to_file)
 {
-    assert(filesystem::check_file_extension(path_to_file, "obj"));
+    if (!filesystem::check_file_extension(path_to_file, "obj"))
+    {
+        // TODO: handle
+        return;
+    }
 
     std::ifstream stream(path_to_file);
-    assert(!stream.fail());
+    if (stream.fail())
+    {
+        // TODO: handle
+        return;
+    }
 
     std::string line;
     std::vector<std::string> parts;
@@ -49,5 +57,4 @@ ObjFile::ObjFile(const std::string& path_to_file)
 
 ObjFile::~ObjFile()
 {
-
 }

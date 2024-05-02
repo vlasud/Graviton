@@ -5,17 +5,8 @@
 
 #include <chrono>
 #include <iostream>
+#include <functional>
 
-
-static inline double calc_delta_time()
-{
-    static std::chrono::high_resolution_clock deltaTimeTimer;
-    static auto prevTime = deltaTimeTimer.now();
-    auto curTime = deltaTimeTimer.now();
-    double deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(curTime - prevTime).count() / 1000.0;
-    prevTime = curTime;
-    return deltaTime;
-}
 
 Engine* Engine::get()
 {
@@ -38,30 +29,31 @@ Engine::~Engine()
 
 void Engine::run()
 {
-    if (!scene || !renderer)
-        return;
-
-    if (!window)
+    if (!window || !scene.get() || !renderer.get())
     {
         // TODO: handle
         return;
     }
 
+    static double prevTime = glfwGetTime();
+    static double curTime = glfwGetTime();
+
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
 
-        double deltaTime = calc_delta_time();
+        curTime = glfwGetTime();
+        double deltaTime = curTime - prevTime;
+        prevTime = curTime;
 
         scene->act(deltaTime);
         renderer->act(deltaTime);
 
         glfwSwapBuffers(window);
     }
-
 }
 
-bool Engine::initEngine()
+bool Engine::initEngine(const EngineInitDesc& init_desc)
 {
     if (!glfwInit())
         return false;
@@ -70,8 +62,8 @@ bool Engine::initEngine()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(windowSettings.size[0], windowSettings.size[1],
-        windowSettings.title.c_str(), NULL, NULL);
+    window = glfwCreateWindow(init_desc.windowSize[0], init_desc.windowSize[1],
+        init_desc.title.c_str(), NULL, NULL);
 
     if (!window)
     {
@@ -82,22 +74,18 @@ bool Engine::initEngine()
     glfwMakeContextCurrent(window);
     gladLoadGL(glfwGetProcAddress);
 
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-    glViewport(0, 0, width, height);
-
-
+    glViewport(0, 0, init_desc.windowSize[0], init_desc.windowSize[1]);
     glEnable(GL_DEPTH_TEST);
 
     scene = std::make_unique<Scene>();
-    if (!scene)
+    if (!scene.get())
     {
         // TODO: handle
         return false;
     }
 
-    renderer = std::make_unique<Renderer>(width, height);
-    if (!renderer)
+    renderer = std::make_unique<Renderer>(init_desc.windowSize[0], init_desc.windowSize[1]);
+    if (!renderer.get())
     {
         // TODO: handle
         return false;
