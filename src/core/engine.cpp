@@ -8,6 +8,12 @@
 #include <functional>
 
 
+static void window_resize_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+
 Engine* Engine::get()
 {
     static Engine* engine = nullptr;
@@ -71,10 +77,11 @@ bool Engine::initEngine(const EngineInitDesc& init_desc)
         return false;
     }
 
+    glfwSetWindowSizeCallback(window, window_resize_callback);
+
     glfwMakeContextCurrent(window);
     gladLoadGL(glfwGetProcAddress);
 
-    glViewport(0, 0, init_desc.windowSize[0], init_desc.windowSize[1]);
     glEnable(GL_DEPTH_TEST);
 
     scene = std::make_unique<Scene>();
